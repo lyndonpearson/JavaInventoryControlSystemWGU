@@ -1,5 +1,8 @@
 package com.example.wgufinalproject;
-
+// ***************************************************
+// The Javadoc folder is located in the parent
+// JavaInventoryProject folder
+// ***************************************************
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,15 +21,15 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        InHouse in1 = new InHouse(0, "Bearing", 12, 50, 1, 10, 1 );
-        InHouse in2 = new InHouse(1, "Washer", 14, 10, 2, 3, 2 );
-        InHouse in3 = new InHouse(2, "Bolt", 11, 8, 3, 8, 3 );
-        Outsourced out1 = new Outsourced(3, "Nut", 15, 25, 5, 11, "ZZZ Industries" );
-        Outsourced out2 = new Outsourced(4, "Gear", 10, 19, 0, 7, "GearHeads Inc." );
+        InHouse in1 = new InHouse(0, "Bearing", 12.2, 50, 1, 200, 1 );
+        InHouse in2 = new InHouse(1, "Washer", 14.95, 10, 2, 100, 2 );
+        InHouse in3 = new InHouse(2, "Bolt", 11.50, 30, 3, 50, 3 );
+        Outsourced out1 = new Outsourced(3, "Nut", 15.99, 25, 5, 40, "ZZZ Industries" );
+        Outsourced out2 = new Outsourced(4, "Gear", 10.25, 19, 0, 25, "GearHeads Inc." );
 
-        Product product1 = new Product(10, "widget A", 293.23, 300, 1, 5);
-        Product product2 = new Product(15, "widget B", 223.56, 126, 10, 35);
-        Product product3 = new Product(33, "widget C", 3.36, 74, 7, 9);
+        Product product1 = new Product(10, "widget A", 293.23, 5, 1, 55);
+        Product product2 = new Product(15, "widget B", 223.56, 7, 2, 33);
+        Product product3 = new Product(33, "widget C", 3.36, 12, 7, 22);
 
         Inventory.addPart((in1));
         Inventory.addPart((in2));
@@ -45,7 +48,7 @@ public class App extends Application {
     }
     /** This is the main method App.java. This is the first method called when
      you run your Java program. The Javadoc folder is located in
-     the parent WguFinalProject folder */
+     the parent JavaInventoryProject folder */
     public static void main(String[] args) {
         launch();
     }

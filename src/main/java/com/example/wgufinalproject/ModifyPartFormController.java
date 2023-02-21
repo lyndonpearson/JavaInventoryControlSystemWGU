@@ -6,11 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -111,30 +107,60 @@ public class ModifyPartFormController implements Initializable {
         String updateCompanyName;
         int updateMachineId;
         Part newPart;
-        int partId = Integer.parseInt(modifyPartId.getText());
-        String updateName = modifypartName.getText();
-        int updateStock = Integer.parseInt(ModifyPartStock.getText());
-        double updatePrice = Double.parseDouble(ModifyPartCost.getText());
-        int updateMin = Integer.parseInt(modifyPartMin.getText());
-        int updateMax = Integer.parseInt(modifyPartMax.getText());
+        int partId = 0;
+        String updateName;
+        int updateStock = 0;
+        double updatePrice;
+        int updateMin = 0;
+        int updateMax = 0;
 
-        if (inRadioBtn.isSelected()) {
-            updateMachineId = Integer.parseInt(modifyPartSpecial.getText());
-            newPart = new InHouse(partId, updateName, updatePrice, updateStock, updateMin, updateMax, updateMachineId);
-        }else{
-            updateCompanyName = modifyPartSpecial.getText();
-            newPart = new Outsourced(partId, updateName, updatePrice, updateStock, updateMin, updateMax, updateCompanyName);
+        try {
+            partId = Integer.parseInt(modifyPartId.getText());
+            updateName = modifypartName.getText();
+            updateStock = Integer.parseInt(ModifyPartStock.getText());
+            updatePrice = Double.parseDouble(ModifyPartCost.getText());
+            updateMin = Integer.parseInt(modifyPartMin.getText());
+            updateMax = Integer.parseInt(modifyPartMax.getText());
+
+            if ((updateMin >= updateMax) || (updateStock <= updateMin) || (updateStock >= updateMax))
+                throw new Exception();
+
+            if (inRadioBtn.isSelected()) {
+                updateMachineId = Integer.parseInt(modifyPartSpecial.getText());
+                newPart = new InHouse(partId, updateName, updatePrice, updateStock, updateMin, updateMax, updateMachineId);
+            } else if (outRadioBtn.isSelected()){
+                updateCompanyName = modifyPartSpecial.getText();
+                newPart = new Outsourced(partId, updateName, updatePrice, updateStock, updateMin, updateMax, updateCompanyName);
+            } else
+                throw new Exception();
+
+            Inventory.updatePart(partId, newPart);
+
+            stage = (Stage)((Button) event.getSource()).getScene().getWindow();
+
+            scene = FXMLLoader.load(getClass().getResource("MainForm.fxml"));
+
+            stage.setScene(new Scene(scene));
+
+            stage.show();
+
+        } catch(NumberFormatException inputError){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setContentText("Please enter a valid value for each text field");
+            alert.showAndWait();
+        } catch (Exception msg) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            if ((updateMin >= updateMax) || (updateStock <= updateMin) || (updateStock >= updateMax)){
+                alert.setContentText("Error Max must be greater than Min and Inventory between them");
+            } else {
+                alert.setContentText("Please select In-House or Outsourced");
+            }
+            alert.showAndWait();
         }
 
-        Inventory.updatePart(partId, newPart);
-        System.out.print("Part name is: " + newPart.getName());
-        stage = (Stage)((Button) event.getSource()).getScene().getWindow();
 
-        scene = FXMLLoader.load(getClass().getResource("MainForm.fxml"));
-
-        stage.setScene(new Scene(scene));
-
-        stage.show();
     }
 
     /** This method receives a Part object to modify from the MainMenuController

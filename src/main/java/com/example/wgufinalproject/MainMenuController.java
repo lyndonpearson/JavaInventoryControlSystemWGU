@@ -224,7 +224,13 @@ public class MainMenuController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK) {
             Product deletedProduct = productTableView.getSelectionModel().getSelectedItem();
-            Inventory.deleteProduct(deletedProduct);
+            if (deletedProduct.getAllAssociatedParts().isEmpty())
+                Inventory.deleteProduct(deletedProduct);
+            else {
+                Alert notEmpty = new Alert(Alert.AlertType.ERROR, "Cannot delete product " +
+                        "that contains associated parts");
+                Optional<ButtonType> errorButton = notEmpty.showAndWait();
+            }
         }
     }
 

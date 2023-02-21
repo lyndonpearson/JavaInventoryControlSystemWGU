@@ -146,14 +146,24 @@ public class AddProductFormController implements Initializable {
      @param event The event of the Save button being clicked
      */
     @FXML
-    void onSaveBtnClick(ActionEvent event) {
+    void onSaveBtnClick(ActionEvent event) throws IOException{
+        int id = 0;
+        String name;
+        int inv = 0;
+        double price;
+        int max = 0;
+        int min = 0;
+
         try{
-            int id = Integer.parseInt(productId.getText());
-            String name = productName.getText();
-            int inv = Integer.parseInt(productStock.getText());
-            double price = Double.parseDouble(productPrice.getText());
-            int max = Integer.parseInt(productMax.getText());
-            int min = Integer.parseInt(productMin.getText());
+            id = Integer.parseInt(productId.getText());
+            name = productName.getText();
+            inv = Integer.parseInt(productStock.getText());
+            price = Double.parseDouble(productPrice.getText());
+            max = Integer.parseInt(productMax.getText());
+            min = Integer.parseInt(productMin.getText());
+
+            if ((min >= max) || (inv <= min) || (inv >= max))
+                throw new Exception();
 
             Product tempProduct = new Product(id, name, price, inv, min, max);
             Inventory.addProduct(tempProduct);
@@ -176,10 +186,10 @@ public class AddProductFormController implements Initializable {
             alert.setTitle("Warning Dialog");
             alert.setContentText("Please enter a valid value for each text field");
             alert.showAndWait();
-        } catch (Exception msg) {
+        } catch (Exception numberError) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
-            alert.setContentText("Please select In-House or Outsourced");
+            alert.setContentText("Error Max must be greater than Min and Inventory between them");
             alert.showAndWait();
         }
     }

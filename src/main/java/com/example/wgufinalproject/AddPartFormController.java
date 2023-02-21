@@ -127,16 +127,25 @@ public class AddPartFormController implements Initializable {
      */
     @FXML
     void onSaveButtonClick(ActionEvent event) throws IOException {
+        int id = 0;
+        String name;
+        int inv = 0;
+        double price;
+        int max = 0;
+        int min = 0;
+        int machineId = 0;
+        String companyName;
 
         try{
-            int id = Integer.parseInt(idTextField.getText());
-            String name = nameTextField.getText();
-            int inv = Integer.parseInt(invTextField.getText());
-            double price = Double.parseDouble(priceTextField.getText());
-            int max = Integer.parseInt(maxTextField.getText());
-            int min = Integer.parseInt(minTextField.getText());
-            int machineId;
-            String companyName;
+            id = Integer.parseInt(idTextField.getText());
+            name = nameTextField.getText();
+            inv = Integer.parseInt(invTextField.getText());
+            price = Double.parseDouble(priceTextField.getText());
+            max = Integer.parseInt(maxTextField.getText());
+            min = Integer.parseInt(minTextField.getText());
+
+            if ((min >= max) || (inv <= min) || (inv >= max))
+                throw new Exception();
             if (partToggleGroup.getSelectedToggle() == inHouseRadioBtn) {
                 machineId = Integer.parseInt(subIdTextField.getText());
                 Inventory.addPart(new InHouse(id, name, price, inv, min, max, machineId));
@@ -163,7 +172,11 @@ public class AddPartFormController implements Initializable {
         } catch (Exception msg) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
-            alert.setContentText("Please select In-House or Outsourced");
+            if ((min >= max) || (inv <= min) || (inv >= max)){
+                alert.setContentText("Error Max must be greater than Min and Inventory between them");
+            } else {
+                alert.setContentText("Please select In-House or Outsourced");
+            }
             alert.showAndWait();
         }
     }
@@ -176,8 +189,6 @@ public class AddPartFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         idTextField.setDisable(true);
-        System.out.println(url);
-        System.out.println(resourceBundle);
 
         ObservableList<Part> searchList = Inventory.getAllParts();
         boolean searchCondition = true;
