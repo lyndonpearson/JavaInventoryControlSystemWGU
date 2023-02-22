@@ -94,7 +94,6 @@ public class Inventory {
         if (productName.chars().allMatch(Character::isDigit) && !productName.isEmpty()){
             try{
                 Integer.parseInt(productName);
-                System.out.println("1");
             }catch (NumberFormatException inputError) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning Dialog");
@@ -108,7 +107,6 @@ public class Inventory {
         }else {
             for (Product product : totalList) {
                 if (product.getName().toLowerCase().contains(productName.toLowerCase())) {
-                    System.out.println("3");
                     filteredList1.add(product);
                 }
             }
@@ -123,8 +121,6 @@ public class Inventory {
      @param selectedPart Part Updated Part to be inserted at appropriate location.
      */
     public static void updatePart(int id, Part selectedPart){
-        System.out.println(selectedPart.getId());
-        System.out.println((selectedPart.getName()));
         int loopIndex = -1;
         ObservableList<Part> tempOL;
         tempOL = Inventory.getAllParts();
@@ -140,8 +136,6 @@ public class Inventory {
      @param selectedProduct Product Updated Product to be inserted at appropriate location.
      */
     public static void updateProduct(int id, Product selectedProduct){
-        System.out.println(selectedProduct.getId());
-        System.out.println((selectedProduct.getName()));
         int loopIndex = -1;
         ObservableList<Product> tempOL;
         tempOL = Inventory.getAllProducts();

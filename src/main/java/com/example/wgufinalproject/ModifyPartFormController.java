@@ -168,6 +168,8 @@ public class ModifyPartFormController implements Initializable {
      @param inPart this method handles Parts of the InHouse type.
      */
     public void receiveInPart(InHouse inPart){
+        inRadioBtn.setSelected(true);
+
         modifyPartId.setText(String.valueOf(inPart.getId()));
         modifypartName.setText(inPart.getName());
         ModifyPartStock.setText(String.valueOf(inPart.getStock()));
@@ -175,6 +177,8 @@ public class ModifyPartFormController implements Initializable {
         modifyPartMax.setText(String.valueOf(inPart.getMax()));
         modifyPartMin.setText(String.valueOf(inPart.getMin()));
         modifyPartSpecial.setText(String.valueOf(inPart.getMachineId()));
+
+        modifyPartSpecialLabel.setText("Machine ID");
 
     }
 
@@ -185,6 +189,8 @@ public class ModifyPartFormController implements Initializable {
      @param inPart this method handles Parts of the OutSource type.
      */
     public void receiveInPart(Outsourced inPart){
+        outRadioBtn.setSelected(true);
+
         modifyPartId.setText(String.valueOf(inPart.getId()));
         modifypartName.setText(inPart.getName());
         ModifyPartStock.setText(String.valueOf(inPart.getStock()));
@@ -192,6 +198,8 @@ public class ModifyPartFormController implements Initializable {
         modifyPartMax.setText(String.valueOf(inPart.getMax()));
         modifyPartMin.setText(String.valueOf(inPart.getMin()));
         modifyPartSpecial.setText(inPart.getCompanyName());
+
+        modifyPartSpecialLabel.setText("Company Name");
 
     }
 
